@@ -470,7 +470,10 @@ class Invoice
      */
     public function download(array $data = [], string $view = self::DEFAULT_VIEW)
     {
-        $filename = $this->date()->month.'_'.$this->date()->year.'.pdf';
+        $filename = implode('_', [
+                $this->id,
+                snake_case(config('app.name', '')),
+            ]) . '.pdf';
 
         return new Response($this->pdf($data, $view), 200, [
             'Content-Description' => 'File Transfer',
